@@ -1,4 +1,6 @@
-package org.example.Jhon;
+package org.example.Jhon.main;
+
+import org.example.Jhon.util.DatabaseConnection;
 
 import java.sql.*;
 
@@ -6,18 +8,12 @@ import java.sql.*;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) throws SQLException {
-//        Connection myConn=null;
-//        PreparedStatement myStamt=null;
-//        Statement myStamtNormal=null;
-//        ResultSet myRes=null;
 
-        String url="jdbc:mysql://localhost:33060/jdbcprueba";
-        String user="root";
-        String password="secret";
+
 
         // aca ya implemento el try with resources , esto me permite un autoclose de las estancias de conexion
-        
-        try(Connection myConn= DriverManager.getConnection(url,user,password);
+
+        try(Connection myConn= DatabaseConnection.getInstance();
             Statement myStamtNormal=myConn.createStatement();
             ResultSet myRes=myStamtNormal.executeQuery("SELECT * FROM employees order by pa_surname");) {
 
