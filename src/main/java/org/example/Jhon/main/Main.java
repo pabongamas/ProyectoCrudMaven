@@ -78,6 +78,9 @@ public class Main {
 //            }
 //        }
 //    }
+
+    //UPDATE CON NUEVO CAMPO
+    //alter table employees ADD COLUMN curp VARCHAR(18) NULL AFTER salary,ADD UNIQUE INDEX `curp_UNIQUE` (`curp`ASC) VISIBLE;
     public static void main(String[] args) {
         SwingApp app = new SwingApp();
         app.setVisible(true);
