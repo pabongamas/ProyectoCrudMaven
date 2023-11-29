@@ -3,10 +3,12 @@ package org.example.Jhon.view;
 import org.example.Jhon.model.Employee;
 import org.example.Jhon.repository.EmployeeRepository;
 import org.example.Jhon.repository.Repository;
+import org.example.Jhon.util.DatabaseConnection;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class SwingApp extends JFrame {
     private final Repository<Employee> employeeRepository;
     private final JTable employeeTable;
 
-    public SwingApp() {
+    public SwingApp() throws SQLException {
         // Configurar la ventana
         setTitle("Gestión de Empleados");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +55,11 @@ public class SwingApp extends JFrame {
         eliminarButton.setFocusPainted(false);
 
         // Crear el objeto Repository para acceder a la base de datos
-        employeeRepository = new EmployeeRepository();
+        //este seria el objeto sin constructor como estaba antes de hacersi sin transacciones ,
+        //se comento porque ahora se tiene que pasar la conexion
+//        employeeRepository = new EmployeeRepository(DatabaseConnection.getInstance());
+//      como en este , si lo dejaba sin conexion no me iba a dejar compilar
+        employeeRepository = new EmployeeRepository(DatabaseConnection.getInstance());
 
         // Cargar los empleados iniciales en la tabla
         refreshEmployeeTable();

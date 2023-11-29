@@ -81,8 +81,35 @@ public class Main {
 
     //UPDATE CON NUEVO CAMPO
     //alter table employees ADD COLUMN curp VARCHAR(18) NULL AFTER salary,ADD UNIQUE INDEX `curp_UNIQUE` (`curp`ASC) VISIBLE;
-    public static void main(String[] args) {
-        SwingApp app = new SwingApp();
-        app.setVisible(true);
+    public static void main(String[] args) throws SQLException {
+
+        //esto es para visualizar interfaz de java swing
+//        SwingApp app = new SwingApp();
+//        app.setVisible(true);
+
+        try(Connection myConn=DatabaseConnection.getInstance()){
+            if(myConn.getAutoCommit()){
+                myConn.setAutoCommit((false));
+            }
+            try{
+                Repository<Employee> repository=new EmployeeRepository(myConn);
+
+                System.out.println("--------- insertar nuevo cliente");
+
+                Employee employee=new Employee();
+                employee.setFirst_name("empleado prueba");
+                employee.setPa_surname("apellido");
+                employee.setMa_surname("apellido dos");
+                employee.setEmail("email@email.com");
+                employee.setSalary((float) 123131);
+                employee.setCurp("4545");
+                repository.save(employee);
+                myConn.commit();
+            } catch (SQLException e) {
+                myConn.rollback();
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 }

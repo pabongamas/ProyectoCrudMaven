@@ -67,7 +67,7 @@ public class EmployeeRepository implements Repository<Employee>{
             myStamt.setFloat(5,employee.getSalary());
             myStamt.setString(6,employee.getCurp());
             if(employee.getId()!=null && employee.getId()>0){
-                myStamt.setInt(6,employee.getId());
+                myStamt.setInt(7,employee.getId());
             }
             myStamt.executeUpdate();
         }catch (SQLException e){
@@ -93,6 +93,7 @@ public class EmployeeRepository implements Repository<Employee>{
         e.setMa_surname(myRes.getString("ma_surname"));
         e.setEmail(myRes.getString("email"));
         e.setSalary(myRes.getFloat("salary"));
+        e.setCurp(myRes.getString("curp"));
         return e;
     }
 }
