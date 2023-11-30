@@ -13,17 +13,25 @@ public class EmployeeRepository implements Repository<Employee>{
 //    }
     //SE COMENTA LO DE ARRIBA PORQUE AHORA SE VA AHACER LA CONEXION POR MEDIO DETRANSACION
 
-    private Connection myConn;
 
-    public EmployeeRepository(Connection myConn) {
-        this.myConn = myConn;
+//    se comenta porque la conexion ahora va ser por medio de un pool de conexiones
+//    private Connection myConn;
+
+    private Connection getConnection() throws SQLException {
+        return DatabaseConnection.getConnection();
     }
+
+    //se comenta igual por lo del pool de conexiones
+//    public EmployeeRepository(Connection myConn) {
+//        this.myConn = myConn;
+//    }
 
     @Override
     public List<Employee> findAll() throws SQLException {
         List<Employee> employees=new ArrayList<>();
 //        try(Statement myStamt=getConnection().createStatement();
-        try(Statement myStamt=myConn.createStatement();
+        try(Connection myConn=getConnection();
+                Statement myStamt=myConn.createStatement();
             ResultSet myRes=myStamt.executeQuery("select * from employees")){
             while (myRes.next()){
                 //esto se crea seleccionando el codigo a extraer y luego click dereche refactor ->extraer  , le cambio
@@ -38,7 +46,8 @@ public class EmployeeRepository implements Repository<Employee>{
         Employee employee=null;
         String sql="select * from employees where id=?";
 //        try(PreparedStatement myStamt=getConnection().prepareStatement(sql)){
-        try(PreparedStatement myStamt=myConn.prepareStatement(sql)){
+        try(Connection myConn=getConnection();
+            PreparedStatement myStamt=myConn.prepareStatement(sql)){
             myStamt.setInt(1,id);
             try(ResultSet myRes=myStamt.executeQuery()){
                 if(myRes.next()){
@@ -59,7 +68,8 @@ public class EmployeeRepository implements Repository<Employee>{
             sql="INSERT INTO employees (first_name,pa_surname,ma_surname,email,salary,curp) values (?,?,?,?,?,?)";
         }
 //        try(PreparedStatement myStamt=getConnection().prepareStatement(sql)){
-        try(PreparedStatement myStamt=myConn.prepareStatement(sql)){
+        try(Connection myConn=getConnection();
+                PreparedStatement myStamt=myConn.prepareStatement(sql)){
             myStamt.setString(1,employee.getFirst_name());
             myStamt.setString(2,employee.getPa_surname());
             myStamt.setString(3,employee.getMa_surname());
@@ -79,7 +89,8 @@ public class EmployeeRepository implements Repository<Employee>{
     public void delete(Integer id) throws SQLException {
         String sql="delete from employees WHERE id=?";
 //        try(PreparedStatement myStamt=getConnection().prepareStatement(sql)){
-            try(PreparedStatement myStamt=myConn.prepareStatement(sql)){
+            try(Connection myConn=getConnection();
+                PreparedStatement myStamt=myConn.prepareStatement(sql)){
 
             myStamt.setInt(1,id);
             myStamt.executeUpdate();

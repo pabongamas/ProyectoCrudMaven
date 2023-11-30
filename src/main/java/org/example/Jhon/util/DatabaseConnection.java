@@ -24,4 +24,24 @@ public class DatabaseConnection {
     //esto es usando un pool de conexiones de la dependencia dbcp2
     private static BasicDataSource pool;
 
+    public static BasicDataSource getInstance() throws SQLException {
+        if(pool==null){
+            pool=new BasicDataSource();
+            pool.setUrl(url);
+            pool.setUsername(user);
+            pool.setPassword(pass);
+
+            pool.setInitialSize(3);
+            pool.setMinIdle(2);
+            pool.setMaxIdle(10);
+            pool.setMaxTotal(10);
+        }
+        return pool;
+
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return getInstance().getConnection();
+    }
+
 }

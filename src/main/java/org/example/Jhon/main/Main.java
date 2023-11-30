@@ -87,29 +87,37 @@ public class Main {
 //        SwingApp app = new SwingApp();
 //        app.setVisible(true);
 
-        try(Connection myConn=DatabaseConnection.getInstance()){
-            if(myConn.getAutoCommit()){
-                myConn.setAutoCommit((false));
-            }
-            try{
-                Repository<Employee> repository=new EmployeeRepository(myConn);
 
-                System.out.println("--------- insertar nuevo cliente");
+//        codigo para insertar por medio de una conexion y por medio de transaccion
+//        try(Connection myConn=DatabaseConnection.getInstance()){
+//            if(myConn.getAutoCommit()){
+//                myConn.setAutoCommit((false));
+//            }
+//            try{
+//                Repository<Employee> repository=new EmployeeRepository(myConn);
+//
+//                System.out.println("--------- insertar nuevo cliente");
+//
+//                Employee employee=new Employee();
+//                employee.setFirst_name("empleado prueba");
+//                employee.setPa_surname("apellido");
+//                employee.setMa_surname("apellido dos");
+//                employee.setEmail("email@email.com");
+//                employee.setSalary((float) 123131);
+//                employee.setCurp("4545");
+//                repository.save(employee);
+//                myConn.commit();
+//            } catch (SQLException e) {
+//                myConn.rollback();
+//                throw new RuntimeException(e);
+//            }
+//        }
+        System.out.println("-------listando todos--------------");
+        Repository<Employee>repository=new EmployeeRepository();
+        repository.findAll().forEach(System.out::println);
 
-                Employee employee=new Employee();
-                employee.setFirst_name("empleado prueba");
-                employee.setPa_surname("apellido");
-                employee.setMa_surname("apellido dos");
-                employee.setEmail("email@email.com");
-                employee.setSalary((float) 123131);
-                employee.setCurp("4545");
-                repository.save(employee);
-                myConn.commit();
-            } catch (SQLException e) {
-                myConn.rollback();
-                throw new RuntimeException(e);
-            }
-        }
 
+        System.out.println("------------buscando por id-----------");
+        System.out.println(repository.getById(2));
     }
 }

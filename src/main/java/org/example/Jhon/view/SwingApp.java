@@ -59,7 +59,9 @@ public class SwingApp extends JFrame {
         //se comento porque ahora se tiene que pasar la conexion
 //        employeeRepository = new EmployeeRepository(DatabaseConnection.getInstance());
 //      como en este , si lo dejaba sin conexion no me iba a dejar compilar
-        employeeRepository = new EmployeeRepository(DatabaseConnection.getInstance());
+//        employeeRepository = new EmployeeRepository(DatabaseConnection.getInstance());
+
+        employeeRepository = new EmployeeRepository();
 
         // Cargar los empleados iniciales en la tabla
         refreshEmployeeTable();
